@@ -21,6 +21,54 @@ class ObjetRepository extends ServiceEntityRepository
         parent::__construct($registry, Objet::class);
     }
 
+
+    public function getAll()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT o
+                FROM App\Entity\Objet o
+                ORDER BY o.titre ASC'
+        );
+        return $query->execute();
+    }
+
+    // Find/search objets by title
+    public function findObjetsByTitle(string $query)
+    {
+        $qb = $this->createQueryBuilder('o');
+        $qb
+            ->where(
+                $qb->expr()->andX(
+                    $qb->expr()->orX(
+                        $qb->expr()->like('o.titre', ':query'),
+                        $qb->expr()->like('o.description', ':query'),
+                    ),
+                    $qb->expr()->isNotNull('o.id')
+                )
+            )
+            ->setParameter('query', '%' . $query . '%');
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Recherche les objets en fonction du formulaire
+     * @return void 
+     */
+    public function search($categorie = null)
+    {
+        $query = $this->createQueryBuilder('o');
+        $query->where('o.active = 1');
+        if ($categorie != null) {
+            $query->leftJoin('o.categories', 'c');
+            $query->andWhere('c.id = :id')
+                ->setParameter('id', $categorie);
+        }
+        return $query->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Objet[] Returns an array of Objet objects
 //     */
