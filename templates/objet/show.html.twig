@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ objet.titre }}{% endblock %}
+
+{% block body %}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8 mb-5">
+        
+        <div class="card bg-light">
+            <div class="course_image">
+                <img src="{{ vich_uploader_asset(objet, 'imageFile') }}" style="width: 100%; height: 300px;" alt="image">
+            </div>
+        <div class="card bg-light">
+            <div class="card-header text-center">
+                <h2 class="card-title"><strong>{{ objet.titre }}</strong> </h2>
+            </div>
+
+            <div class="card-body">
+                {% if objet %}
+                    <div class="row">
+                    <div class="col-6">
+                        <div class="mb-4"><strong>Propietaire :</strong> {{ objet.getCreatedBy.prenomUser }} {{ objet.getCreatedBy.nomUser }} </div>
+                    </div>
+                        <div class="col-6">
+                        {% for categorie in objet.categories %}
+                            <span class="badge text-bg-primary mx-2 w-25">{{ categorie.nom }}</span>
+                        {% endfor %}
+                        </div>
+                    </div>
+                    </div>
+
+					<div class="px-3"> {{ objet.content|raw }}</div>
+                    <div class="d-flex px-3 mb-3">
+                        <a href="{{ path('app_objets') }}" class="btn sk-btn mt-5 me-3">Retour à la liste des objets</a>
+                        {% if app.user %}
+                            <a href="{{ path('app_user') }}" class="btn btn-secondary mt-5">Mon profil</a>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <p>Le objet demandé n'existe pas.</p>
+                {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

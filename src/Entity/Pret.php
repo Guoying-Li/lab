@@ -23,6 +23,17 @@ class Pret
     #[ORM\ManyToOne(inversedBy: 'prets')]
     private ?Modalite $PretModalite = null;
 
+       /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="pret")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Objet::class, inversedBy="pret")
+     */
+    private $objet;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -63,4 +74,31 @@ class Pret
 
         return $this;
     }
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+    public function getObjet(): ?Objet
+    {
+        return $this->objet;
+    }
+
+    public function setObjet(?Objet $objet): self
+    {
+        $this->objet = $objet;
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return $this->date_de_pret.$this->date_de_retour;
+    }
+
 }

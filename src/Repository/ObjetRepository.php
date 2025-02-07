@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Objet;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Categorie;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Objet>
@@ -67,6 +68,16 @@ class ObjetRepository extends ServiceEntityRepository
                 ->setParameter('id', $categorie);
         }
         return $query->getQuery()->getResult();
+    }
+
+    public function findByCategory(Categorie $categorie): array
+    {
+        return $this->createQueryBuilder('o')
+            ->innerJoin('o.categories', 'cat') 
+            ->where('cat.id = :categorieId')
+            ->setParameter('categorieId', $categorie->getId())
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

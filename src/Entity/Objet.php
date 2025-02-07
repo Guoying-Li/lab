@@ -5,10 +5,12 @@ namespace App\Entity;
 use App\Repository\ObjetRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ObjetRepository::class)]
+#[Vich\Uploadable]
 class Objet
 {
     #[ORM\Id]
@@ -19,28 +21,47 @@ class Objet
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $image = null;
+ 
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Vich\UploadableField(mapping: 'objets', fileNameProperty: 'imageName')]
+    private ?File $imageFile = null;
+
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private ?string $imageName = null;
+
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column(length: 600, nullable: true)]
     private ?string $description = null;
+
+    #[ORM\Column(length: 10000)]
+    private ?string $content = null;
 
     #[ORM\Column]
     private ?bool $is_active = null;
 
-    #[ORM\ManyToMany(targetEntity: Categorie::class, mappedBy: 'categorieObjet')]
+    #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'objets')]
     private Collection $categories;
 
     #[ORM\ManyToOne(inversedBy: 'objets')]
-    private ?User $ObjetUser = null;
+    #[ORM\JoinColumn(nullable: true, onDelete: "Cascade")]
+    private ?User $createdBy = null;
 
-    #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'objets')]
-    private Collection $ObjetCategorie;
+    private $pret;
+
+    private $dispo;
+
+       /**
+     * @ORM\ManyToOne(targetEntity=Modalite::class, inversedBy="objets")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $modalite;
 
     public function __construct()
     {
         $this->categories = new ArrayCollection();
-        $this->ObjetCategorie = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -60,16 +81,39 @@ class Objet
         return $this;
     }
 
-    public function getImage(): ?string
+        /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): void
     {
-        return $this->image;
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 
-    public function setImage(?string $image): static
+    public function getImageFile(): ?File
     {
-        $this->image = $image;
+        return $this->imageFile;
+    }
 
-        return $this;
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
     }
 
     public function getDescription(): ?string
@@ -104,58 +148,78 @@ class Objet
         return $this->categories;
     }
 
-    public function addCategory(Categorie $category): static
+    public function addCategorie(Categorie $categorie): static
     {
-        if (!$this->categories->contains($category)) {
-            $this->categories->add($category);
-            $category->addCategorieObjet($this);
+        if (!$this->categories->contains($categorie)) {
+            $this->categories->add($categorie);
         }
 
         return $this;
     }
 
-    public function removeCategory(Categorie $category): static
+    public function removeCategorie(Categorie $categorie): static
     {
-        if ($this->categories->removeElement($category)) {
-            $category->removeCategorieObjet($this);
-        }
+        if ($this->categories->removeElement($categorie)) 
 
         return $this;
     }
 
-    public function getObjetUser(): ?User
+    public function getCreatedBy(): ?User
     {
-        return $this->ObjetUser;
+        return $this->createdBy;
     }
 
-    public function setObjetUser(?User $ObjetUser): static
+    public function setCreatedBy(?User $createdBy): static
     {
-        $this->ObjetUser = $ObjetUser;
+        $this->createdBy = $createdBy;
 
         return $this;
     }
 
+    
     /**
-     * @return Collection<int, Categorie>
+     * @return Collection|Pret[]
      */
-    public function getObjetCategorie(): Collection
+    public function getPret(): Collection
     {
-        return $this->ObjetCategorie;
+        return $this->pret;
     }
 
-    public function addObjetCategorie(Categorie $objetCategorie): static
+    public function addPret(Pret $pret): self
     {
-        if (!$this->ObjetCategorie->contains($objetCategorie)) {
-            $this->ObjetCategorie->add($objetCategorie);
+        if (!$this->pret->contains($pret)) {
+            $this->pret[] = $pret;
+            $pret->setObjet($this);
         }
 
         return $this;
     }
 
-    public function removeObjetCategorie(Categorie $objetCategorie): static
+    public function removePret(Pret $pret): self
     {
-        $this->ObjetCategorie->removeElement($objetCategorie);
+        if ($this->pret->removeElement($pret)) {
+            // set the owning side to null (unless already changed)
+            if ($pret->getObjet() === $this) {
+                $pret->setObjet(null);
+            }
+        }
 
         return $this;
     }
+
+    public function getModalite(): ?Modalite
+    {
+        return $this->modalite;
+    }
+
+    public function setModalite(?Modalite $modalite): self
+    {
+        $this->modalite = $modalite;
+
+        return $this;
+    }
+
+
+
+
 }

@@ -18,17 +18,20 @@ class Categorie
     #[ORM\Column(length: 100)]
     private ?string $nom = null;
 
-    #[ORM\ManyToMany(targetEntity: Objet::class, inversedBy: 'categories')]
-    private Collection $categorieObjet;
-
-    #[ORM\ManyToMany(targetEntity: Objet::class, mappedBy: 'ObjetCategorie')]
+    #[ORM\ManyToMany(targetEntity: Objet::class, mappedBy: 'categories')]
     private Collection $objets;
+
 
     public function __construct()
     {
-        $this->categorieObjet = new ArrayCollection();
         $this->objets = new ArrayCollection();
     }
+
+    public function __toString(): string
+    {
+        return $this->nom;
+    }
+
 
     public function getId(): ?int
     {
@@ -50,30 +53,6 @@ class Categorie
     /**
      * @return Collection<int, Objet>
      */
-    public function getCategorieObjet(): Collection
-    {
-        return $this->categorieObjet;
-    }
-
-    public function addCategorieObjet(Objet $categorieObjet): static
-    {
-        if (!$this->categorieObjet->contains($categorieObjet)) {
-            $this->categorieObjet->add($categorieObjet);
-        }
-
-        return $this;
-    }
-
-    public function removeCategorieObjet(Objet $categorieObjet): static
-    {
-        $this->categorieObjet->removeElement($categorieObjet);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Objet>
-     */
     public function getObjets(): Collection
     {
         return $this->objets;
@@ -83,7 +62,7 @@ class Categorie
     {
         if (!$this->objets->contains($objet)) {
             $this->objets->add($objet);
-            $objet->addObjetCategorie($this);
+            $objet->addCategorie($this);
         }
 
         return $this;
@@ -91,10 +70,11 @@ class Categorie
 
     public function removeObjet(Objet $objet): static
     {
-        if ($this->objets->removeElement($objet)) {
-            $objet->removeObjetCategorie($this);
+       if( $this->objets->removeElement($objet)) {
+            $objet->removeCategorie($this);
         }
 
         return $this;
     }
+
 }

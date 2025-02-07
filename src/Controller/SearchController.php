@@ -32,11 +32,6 @@ class SearchController extends AbstractController
                     'placeholder' => 'Entrez un mot-clé'
                 ]
             ])
-            ->add('recherche', SubmitType::class, [
-                'attr' => [
-                    'class' => 'sk-btn mt-3'
-                ]
-            ])
             ->getForm();
 
         return $this->render('search/searchBar.html.twig', [
@@ -54,7 +49,21 @@ class SearchController extends AbstractController
     #[Route('/handleSearch', name: 'handleSearch')]
     public function handleSearch(Request $request, ObjetRepository $repo): Response
     {
-        $notes = $repo->getAverageNotes();
+        $form = $this->createFormBuilder()
+            ->setAction($this->generateUrl('handleSearch'))
+            ->add('query', TextType::class, [
+                'label' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Entrez un mot-clé'
+                ]
+            ])
+            ->add('recherche', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-outline-secondary'
+                ]
+            ])
+            ->getForm();
         
         $form = $this->createFormBuilder()
             ->setAction($this->generateUrl('handleSearch'))
@@ -75,7 +84,7 @@ class SearchController extends AbstractController
 
         $query = $form->getData()['query']; //$request->request->get('form')['query'] ?? '';
 
-        $courses = [];
+        $objets = [];
     
         if ($query) {
             $objets = $repo->findObjetsByTitle($query);
@@ -83,7 +92,7 @@ class SearchController extends AbstractController
       
         return $this->render('search/index.html.twig', [
             'objets' => $objets,
-            'notes' =>  $notes
+            
         ]);
     }
     

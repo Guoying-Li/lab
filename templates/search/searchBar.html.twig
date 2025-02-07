@@ -1,11 +1,15 @@
 {% block body %}
 
-	<div class="container d-flex justify-content-center">
-		{{ form_start(form, {attr: { class: "row row-cols-lg-auto g-3 align-items-center"}}) }}
-		<div class="col-8">{{ form_widget(form.query) }}</div>
-		<div class="col-4">{{ form_widget(form.submit) }}</div>
-		{{ form_end(form) }}
-	</div>
+<!-- Deuxième barre de recherche à droite -->
+<div class="container d-flex justify-content-end">
+    {{ form_start(form, {'attr': {'class': 'd-flex w-100'}}) }}
+    <div class="flex-grow-1 me-2">
+        {{ form_widget(form.query, {'attr': {'class': 'form-control', 'placeholder': 'Entrez un mot clé...'}}) }}
+    </div>
+  
+    {{ form_end(form) }}
+</div>
+
 
 
 {% endblock %}
