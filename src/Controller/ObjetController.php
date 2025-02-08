@@ -39,76 +39,58 @@ class ObjetController extends AbstractController
         ]);
     }
 
-        /**
-     * Create a new objet
-     *
-     * @param EntityManagerInterface $entityManager
-     * @param Request $request
-     * @return Response
+    /**
+     * Crée un nouvel objet
      */
     #[Route('/objet/create', name: 'app_objet_create')]
- 
-    public function create(Objet $objet = null, Request $request, EntityManagerInterface $em)
+    public function create(Request $request, EntityManagerInterface $em): Response
     {
-        $categories = $em->getRepository(Categorie::class)->findAll();
-        if ($objet == null)
-            $objet = new Objet();
-
-        $form = $this->createForm(ObjetType::class, $objet, [
-            'categories' => $categories,
-        ]);
-
-       
         $objet = new Objet();
         $form = $this->createForm(ObjetType::class, $objet);
         $form->handleRequest($request);
-    
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($objet);
             $em->flush();
-    
-            return $this->redirectToRoute('app_objet_index');
+
+            $this->addFlash('success', 'L\'objet a été créé avec succès !');
+
+            return $this->redirectToRoute('app_objet');
         }
-    
+
         return $this->render('objet/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
     /**
      * Show détails of an objet
-     *
-     * @param string $titre
-     * @param EntityManagerInterface $entityManager
-     * @return Response
      */
-    #[Route('/objet/show', name: 'app_objet_show')]
-    public function show(string $titre, EntityManagerInterface $entityManager): Response
+    #[Route('/objet/show/{id}', name: 'app_objet_show')]
+    public function show(int $id, EntityManagerInterface $entityManager): Response
     {
-        $objet = $entityManager->getRepository(Objet::class)->findOneBy(['title' => $titre]);
-
+        $objet = $entityManager->getRepository(Objet::class)->find($id);
+    
         if (!$objet) {
-            throw $this->createNotFoundException('No objet found for this titre');
+            throw $this->createNotFoundException("L'objet avec l'ID $id n'existe pas.");
         }
-
+    
         return $this->render('objet/show.html.twig', [
             'objet' => $objet,
         ]);
     }
+    
 
     
-        /**
-     * @Route("/objet/delete/{id}", name="objet_delete", requirements={"id"="\d+"})
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function delete(Objet $objet = null, EntityManagerInterface $em): Response
+    #[Route('/objet/delete/{id}', name: 'app_objet_delete', methods: ['POST'])]
+    public function delete(Request $request, Objet $objet, EntityManagerInterface $entityManager): Response
     {
-        if ($objet) {
-            $em->remove($objet);
-            $em->flush();
-            $this->addFlash("success", "L'objet" . $objet->getTitre() . "a été supprimé !");
-        } else $this->addFlash("error", "pas d'objet correspondant...");
-
-
-        return $this->redirectToRoute("home");
+        if ($this->isCsrfTokenValid('delete' . $objet->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($objet);
+            $entityManager->flush();
+            $this->addFlash('success', "L'objet a été supprimé avec succès !");
+        }
+    
+        return $this->redirectToRoute('app_objet_index');
     }
+    
 }

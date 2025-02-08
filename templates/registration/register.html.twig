@@ -12,27 +12,37 @@
                 {% endfor %}
 
                 <div class="form">
-                    {{ form_start(registrationForm, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+                    {{ form_start(registrationForm, {'attr': {'class': 'needs-validation'}}) }}
+                    
                     <div class="mb-3">
                         {{ form_row(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Prénom', 'required': 'required'}}) }}
                     </div>
+                    
                     <div class="mb-3">
                         {{ form_row(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom', 'required': 'required'}}) }}
                     </div>
+                    
                     <div class="mb-3">
                         {{ form_row(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email', 'required': 'required'}}) }}
                     </div>
+
                     <div class="mb-3">
-                        {{ form_row(registrationForm.password, {'attr': {'class': 'form-control', 'placeholder': 'Mot de passe', 'required': 'required'}}) }}
+                        {{ form_row(registrationForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'Mot de passe', 'required': 'required'}}) }}
                     </div>
+                    <div class="mb-3">
+                        {{ form_row(registrationForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Confirmer le mot de passe', 'required': 'required'}}) }}
+                    </div>
+                    
                     <div class="form-check mb-3">
-                        {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input', 'required': 'required'}}) }}
+                        {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
                         <label class="form-check-label">
                             En cochant cette case, vous acceptez nos <a target="_blank" href="/CGU.pdf">conditions générales d'utilisation</a>
                         </label>
                     </div>
+                    
                     <button class="btn btn-lg btn-primary" type="submit">M'inscrire</button>
-                    <a href="{{ path('app_login')}}">Me connecter</a>
+                    <a href="{{ path('app_login') }}">Me connecter</a>
+
                     {{ form_end(registrationForm) }}
                 </div>
             </div>
@@ -40,4 +50,5 @@
     </div>
 </div>
 {% endblock %}
+
 

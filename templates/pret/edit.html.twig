@@ -1,0 +1,12 @@
+
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% if editMode %}
+        <h5>Modification</h5>
+        {% else %}
+        <h5>Ajout</h5>
+        {% endif %}
+
+        {{form(formAddPret)}}
+        <a href="{{ path('pret_add') }}">Retour</a>
+{% endblock %}

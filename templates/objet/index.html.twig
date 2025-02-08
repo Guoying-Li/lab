@@ -40,20 +40,35 @@
         {% for objet in objets %}
             <div class="col">
                 <div class="card h-100 shadow-sm">
+                    <!-- Image de l'objet -->
                     <img src="{{ vich_uploader_asset(objet, 'imageFile') }}" class="card-img-top" style="width: 100%; height: 200px; object-fit: cover;" alt="image">
                     
                     <div class="card-body d-flex flex-column">
+                        <!-- Affichage des catégories -->
                         <div class="d-flex flex-wrap mt-1">
                             {% for categorie in objet.categories %}
                                 <span class="badge text-bg-primary mx-1 mb-2">{{ categorie.nom }}</span>
                             {% endfor %}
                         </div>
+                        
                         <h2 class="card-title">{{ objet.titre }}</h2>
                         <p class="card-text flex-grow-1">{{ objet.description }}</p>
+
+                        <!-- Affichage des modalités -->
+                       
+                            <div class="d-flex flex-wrap mt-2">
+                               
+                                    
+                                
+                            </div>
+                   
                     </div>
 
+                    <!-- Footer de la carte avec les boutons -->
                     <div class="card-footer d-flex">
-                        <!-- Ajoute ici les boutons ou actions -->
+                        <a href="" class="btn btn-primary">Voir</a>
+                        <a href="" class="btn btn-warning ms-2">Modifier</a>
+                        <a href="" class="btn btn-danger ms-2">Supprimer</a>
                     </div>
                 </div>
             </div>

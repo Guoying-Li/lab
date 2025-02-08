@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<div class="container-sm">
+		<div class=".col-md-4">
+			<h5>LES EMPRUNTS EN COURS</h5>
+			<table class="table table-light table-striped">
+
+				<thead>
+					<tr>
+
+						<th>OBJET</th>
+						<th>EMPRUNTEUR</th>
+						<th>DATE DE PRET</th>
+						<th>DATE DE RETOUR</th>
+						<th>MODIFIER</th>
+						<th>SUPPRIMER</th>
+					</tr>
+				</thead>
+				<thead></thead>
+				<tbody>
+					{% for pret in prets %}
+						<tr>
+							<td>{{ pret.objet.titre}}</td>
+							<td>{{ pret.user.prenom ~ pret.user.nom }}</td>
+							<td>{{ pret.dateDePret | date('d/m/Y') }}</td>
+							<td>{{ pret.dateDeRetour | date('d/m/Y') }}</td>
+							<td>
+								<a class="btn btn-outline-info" href="{{ path('pret_edit',{'id': pret.id })}}">
+									<i class="fas fa-edit"></i>
+								</a>
+							</td>
+					</td>
+					<td>
+						<a class="btn btn-outline-info" href="{{ path('pret_delete',{'id': pret.id })}}">
+							<i class="fas fa-trash-alt"></i>
+						</a>
+					</td>
+				</tbody>
+			</tr>
+		{% endfor %}
+
+	</tbody>
+</table></div><div class=".col-md-4">
+<h5>TOUS LES UTILISATEURS</h5>
+<table class="table table-light table-striped">
+
+	<thead>
+		<tr>
+			<th>NOM</th>
+			<th>PRENOM</th>
+			<th>EMAIL</th>
+			<th>TELEPHONE</th>
+			<th>ROLE</th>
+			<th>SUPPRIMER</th>
+		</tr>
+	</thead>
+	<thead></thead>
+	<tbody>
+		{% for user in users %}
+			<tr>
+				<td>{{ user.nom }}</td>
+				<td>{{ user.prenom }}</td>
+				<td>{{ user.email }}</td>
+				<td>{{ user.telephone }}</td>
+				<td>
+					{% for unrole in user.roles %}
+						<li>{{unrole}}</li>
+					{% endfor %}
+				</td>
+				<td>
+					<a class="btn btn-outline-info" href="{{ path('user_delete',{'id': user.id })}}">
+						<i class="fas fa-trash-alt"></i>
+					</a>
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table></div></div></div>{% endblock %}

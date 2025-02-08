@@ -2,31 +2,31 @@
 
 namespace App\Form;
 
-use App\Entity\Categorie;
-use App\Entity\Objet;
+use App\Entity\Modalite;
+use App\Entity\Pret;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
-class CategorieFilterType extends AbstractType
+class PretType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
-    {    
+    {
         $builder
-        ->add('nom', EntityType::class, [
-            'class' => Categorie::class,
-            'choice_label' => 'nom', 
-            'placeholder' => 'Choisir une catégorie',
-            'required' => false,
-        ]);
-}
+            ->add('date_de_retour')
+            ->add('date_de_pret')
+            ->add('PretModalite', EntityType::class, [
+                'class' => Modalite::class,
+'choice_label' => 'id',
+            ])
+        ;
+    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            
+            'data_class' => Pret::class,
         ]);
     }
 }

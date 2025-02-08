@@ -1,58 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Rajouter un objet{% endblock %}
+{% block title %}{{ app.request.get('_route') == 'app_objet_create' ? 'Rajouter un objet' : 'Modifier un objet' }}{% endblock %}
 
 {% block body %}
 
-	{% if (app.request.get('_route')) == 'app_objet_create'%}
+    <h1 class="text-center mt-5 text-decoration-underline">
+        {{ app.request.get('_route') == 'app_objet_create' ? 'Ajouter un objet' : 'Modifier un objet' }}
+    </h1>
 
-		<h1 class="text-center mt-5 text-decoration-underline">ajouter un objet</h1>
+    <main class="sk-main">
+        <div class="container">
+            {{ form_start(form) }}
 
-	{% endif %}
+            {{ form_row(form.imageFile) }}
 
-	{% if (app.request.get('_route')) == 'app_objet_edit'%}
+            {{ form_label(form.titre, 'Titre', { 'label_attr': {'class': 'form-label m-0 fw-bold'} }) }}
+            {{ form_widget(form.titre, { 'attr': {'class': 'form-control my-2'} }) }}
+            {{ form_errors(form.titre) }}
 
-		<h1 class="text-center mt-5 text-decoration-underline">modifier un objet</h1>
+            {{ form_label(form.categories, 'Catégorie', { 'label_attr': {'class': 'form-label m-0 fw-bold'} }) }}
+            {{ form_widget(form.categories, { 'attr': {'class': 'form-select my-2'} }) }}
+            {{ form_errors(form.categories) }}
 
-	{% endif %}
+			{{ form_label(form.modalite, 'Modalité', { 'label_attr': {'class': 'form-label m-0 fw-bold'} }) }}
+            {{ form_widget(form.modalite, { 'attr': {'class': 'form-select my-2'} }) }}
+            {{ form_errors(form.modalite) }}
 
+            {{ form_label(form.description, 'Description', { 'label_attr': {'class': 'form-label m-0 fw-bold'} }) }}
+            {{ form_widget(form.description, { 'attr': {'class': 'form-control my-2'} }) }}
+            {{ form_errors(form.description) }}
 
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="sk-btn">Enregistrer</button>
+                <a href="{{ path('app_objet') }}" class="btn btn-secondary">Annuler</a>
+            </div>
 
-<main class="sk-main">
-
-	<div class="container">
-
-
-		{{ form_start(form) }}
-		
-		
-    	{{ form_row(form.imageFile)}}
-
-		{{ form_label(form.titre, 'Titre', { 'label_attr': {'class': 'form-label m-0 fw-bold'} } ) }}
-		{{ form_widget(form.titre, { 'attr': {'class': 'form-control my-2'} } ) }}
-		{{ form_errors(form.titre, { 'attr': {'class': 'danger mt-2'} } ) }}
-
-		{{ form_label(form.categories, 'Catégories', { 'label_attr': {'class': 'form-label m-0 fw-bold'} } ) }}
-		{{ form_widget(form.categories, { 'attr': {'class': 'form-control my-2 d-flex justify-content-around'} } ) }}
-		{{ form_errors(form.categories, { 'attr': {'class': 'danger mt-2'} } ) }}
-
-		{{ form_label(form.description, 'Description', { 'label_attr': {'class': 'form-label m-0 fw-bold'} } ) }}
-		{{ form_widget(form.description, { 'attr': {'class': 'form-control my-2'} } ) }}
-		{{ form_errors(form.description, { 'attr': {'class': 'danger mt-2'} } ) }}
-
-		
-
-
-		<div clas="d-flex">
-			<button type="submit" class="sk-btn my-5">Enregistrer</button>
-			<a href="#" class="btn btn-secondary">Annuler</a>
-		</div>
-
-
-		{{ form_end(form) }}
-
-	</div>
-
-</main>
+            {{ form_end(form) }}
+        </div>
+    </main>
 
 {% endblock %}

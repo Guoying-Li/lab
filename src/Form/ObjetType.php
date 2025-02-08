@@ -1,84 +1,72 @@
 <?php
 
 namespace App\Form;
-
-use App\Entity\User;
 use App\Entity\Objet;
 use App\Entity\Modalite;
 use App\Entity\Categorie;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\CategorieRepository;
+use App\Repository\ModaliteRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ObjetType extends AbstractType
 {
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('imageFile', VichImageType::class, [
-            'label' => 'Image du objet',
-            'label_attr'=> [
-                'class' => 'form-label mt-4 fw-bold'
-            ],
-            'required'=> true,
-            'download_uri' => false,
-        ])
-        ->add('titre', TextType::class)
-        ->add('categories', EntityType::class, [
-            'class' => Categorie::class,
-            'choice_label' => 'nom',
-            'multiple' => true,
-            'expanded' => true,
-            'choices' => $options['categories'],
-        ])
-           
-            ->add('description', TextType::class
-            , [
-                'attr' => ['rows' => 15], // Définit le nombre de lignes dans le textarea
+            ->add('imageFile', VichImageType::class, [
+                'label' => "Image de l'objet",
+                'label_attr' => ['class' => 'form-label mt-4 fw-bold'],
+                'required' => true,
+                'download_uri' => false,
             ])
-
-
-            ->add('modalite', EntityType::class, [
-                'class' => Modalite::class,
-                'multiple' => false,
-                'expanded' => true,
-                'choice_label' => function (Modalite $modalite) {
-                    return $modalite;
-                },
+            ->add('titre', TextType::class, [
+                'label' => 'Titre',
+                'label_attr' => ['class' => 'form-label fw-bold'],
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('categories', EntityType::class, [
                 'class' => Categorie::class,
-                'multiple' => true,
-                'expanded' => true,
-                'choice_label' => function (Categorie $categorie) {
-                    return $categorie;
+                'choice_label' => 'nom',
+                'multiple' => true, // Sélection multiple
+                'expanded' => false, // Liste déroulante
+                'query_builder' => function (CategorieRepository $repo) {
+                    return $repo->createQueryBuilder('c')->orderBy('c.nom', 'ASC');
                 },
+                'label' => 'Catégories',
+                'label_attr' => ['class' => 'form-label fw-bold'],
+                'attr' => ['class' => 'form-select'],
             ])
-
-            ->add('valider', SubmitType::class);
+            ->add('modalite', EntityType::class, [
+                'class' => Modalite::class,
+                'choice_label' => 'nom',
+                'multiple' => false,    // Sélection unique
+                'expanded' => false, // Liste déroulante
+                'query_builder' => function (ModaliteRepository $modalite) {
+                    return $modalite->createQueryBuilder('m')->orderBy('m.nom', 'ASC');
+                },
+                'label' => 'Modalités',
+                'label_attr' => ['class' => 'form-label fw-bold'],
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'Description',
+                'label_attr' => ['class' => 'form-label fw-bold'],
+                'attr' => [
+                    'class' => 'form-control',
+                    'rows' => 5, // Ajusté à 5 pour un meilleur affichage
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Objet::class,
-            'categories' => [],
+            'data_class' => Objet::class, // L'objet à lier
         ]);
     }
 }

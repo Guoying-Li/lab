@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\ObjetRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ObjetRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -21,7 +21,8 @@ class Objet
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
- 
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[Vich\UploadableField(mapping: 'objets', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
@@ -29,14 +30,8 @@ class Objet
     #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $imageName = null;
 
-    #[ORM\Column(type: "datetime", nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
-
     #[ORM\Column(length: 600, nullable: true)]
     private ?string $description = null;
-
-    #[ORM\Column(length: 10000)]
-    private ?string $content = null;
 
     #[ORM\Column]
     private ?bool $is_active = null;
@@ -45,23 +40,20 @@ class Objet
     private Collection $categories;
 
     #[ORM\ManyToOne(inversedBy: 'objets')]
-    #[ORM\JoinColumn(nullable: true, onDelete: "Cascade")]
+    #[ORM\JoinColumn(nullable: true, onDelete: "CASCADE")]
     private ?User $createdBy = null;
 
-    private $pret;
+    #[ORM\OneToMany(targetEntity: Pret::class, mappedBy: 'objet', cascade: ['persist', 'remove'])]
+    private Collection $pret;
 
-    private $dispo;
-
-       /**
-     * @ORM\ManyToOne(targetEntity=Modalite::class, inversedBy="objets")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $modalite;
+    #[ORM\ManyToOne(targetEntity: Modalite::class)]
+    #[ORM\JoinColumn(nullable: true)] 
+    private ?Modalite $modalite = null;
 
     public function __construct()
     {
         $this->categories = new ArrayCollection();
-
+        $this->pret = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,26 +69,14 @@ class Objet
     public function setTitre(string $titre): static
     {
         $this->titre = $titre;
-
         return $this;
     }
 
-        /**
-     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
-     * of 'UploadedFile' is injected into this setter to trigger the update. If this
-     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
-     * must be able to accept an instance of 'File' as the bundle will inject one here
-     * during Doctrine hydration.
-     *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
-     */
     public function setImageFile(?File $imageFile = null): void
     {
         $this->imageFile = $imageFile;
 
         if (null !== $imageFile) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTimeImmutable();
         }
     }
@@ -124,7 +104,6 @@ class Objet
     public function setDescription(?string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -136,13 +115,9 @@ class Objet
     public function setIsActive(bool $is_active): static
     {
         $this->is_active = $is_active;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Categorie>
-     */
     public function getCategories(): Collection
     {
         return $this->categories;
@@ -153,14 +128,12 @@ class Objet
         if (!$this->categories->contains($categorie)) {
             $this->categories->add($categorie);
         }
-
         return $this;
     }
 
     public function removeCategorie(Categorie $categorie): static
     {
-        if ($this->categories->removeElement($categorie)) 
-
+        $this->categories->removeElement($categorie);
         return $this;
     }
 
@@ -172,14 +145,9 @@ class Objet
     public function setCreatedBy(?User $createdBy): static
     {
         $this->createdBy = $createdBy;
-
         return $this;
     }
 
-    
-    /**
-     * @return Collection|Pret[]
-     */
     public function getPret(): Collection
     {
         return $this->pret;
@@ -191,19 +159,16 @@ class Objet
             $this->pret[] = $pret;
             $pret->setObjet($this);
         }
-
         return $this;
     }
 
     public function removePret(Pret $pret): self
     {
         if ($this->pret->removeElement($pret)) {
-            // set the owning side to null (unless already changed)
             if ($pret->getObjet() === $this) {
                 $pret->setObjet(null);
             }
         }
-
         return $this;
     }
 
@@ -215,11 +180,22 @@ class Objet
     public function setModalite(?Modalite $modalite): self
     {
         $this->modalite = $modalite;
-
         return $this;
     }
 
+    public function getDispo(): string
+    {
+        $now = new \DateTime();
+        foreach ($this->pret as $pret) {
+            if ($now > $pret->getDateDePret() && $now < $pret->getDateDeRetour()) {
+                return "non dispo";
+            }
+        }
+        return "dispo";
+    }
 
-
-
+    public function __toString(): string
+    {
+        return $this->titre;
+    }
 }

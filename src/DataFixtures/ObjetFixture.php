@@ -22,9 +22,9 @@ class ObjetFixture extends Fixture
         for ($i = 0; $i < 10; $i++) {
             $objet = new Objet();
             $objet->setTitre($this->faker->word());
-            $objet->setImage($this->faker->imageUrl());
             $objet->setDescription($this->faker->text()); 
             $objet->setIsActive($this->faker->boolean());
+          
 
             $manager->persist($objet);
         }

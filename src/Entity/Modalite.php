@@ -18,12 +18,12 @@ class Modalite
     #[ORM\Column(length: 50)]
     private ?string $nom = null;
 
-    #[ORM\OneToMany(mappedBy: 'PretModalite', targetEntity: Pret::class)]
-    private Collection $prets;
+    #[ORM\OneToMany(mappedBy: 'modalite', targetEntity: Objet::class)]
+    private $objets;
 
     public function __construct()
     {
-        $this->prets = new ArrayCollection();
+        $this->objets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -44,32 +44,41 @@ class Modalite
     }
 
     /**
-     * @return Collection<int, Pret>
+     * @return Collection<int, Objet>
      */
-    public function getPrets(): Collection
+    public function getObjets(): Collection
     {
-        return $this->prets;
+        return $this->objets;
     }
 
-    public function addPret(Pret $pret): static
+    public function addObjet(Objet $objet): static
     {
-        if (!$this->prets->contains($pret)) {
-            $this->prets->add($pret);
-            $pret->setPretModalite($this);
+        if (!$this->objets->contains($objet)) {
+            $this->objets->add($objet);
+            $objet->setModalite($this);
         }
 
         return $this;
     }
 
-    public function removePret(Pret $pret): static
+    public function removeObjet(Objet $objet): static
     {
-        if ($this->prets->removeElement($pret)) {
+        if ($this->objets->removeElement($objet)) {
             // set the owning side to null (unless already changed)
-            if ($pret->getPretModalite() === $this) {
-                $pret->setPretModalite(null);
+            if ($objet->getModalite() === $this) {
+                $objet->setModalite(null);
             }
         }
 
         return $this;
+    }
+
+    /**
+     * Convertit l'objet Modalite en une chaîne de caractères (nom).
+     * Cela permet à Symfony de l'afficher dans un formulaire ou ailleurs.
+     */
+    public function __toString(): string
+    {
+        return $this->nom;
     }
 }
