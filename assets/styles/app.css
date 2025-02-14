@@ -1,1 +1,82 @@
-
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+header {
+    background: #2c3e50;
+    padding: 15px;
+    color: white;
+}
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+.hero {
+    background: #3498db;
+    color: white;
+    padding: 50px 20px;
+}
+.btn {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    background: #4d2c3f;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.btn-secondary {
+    background: #2ecc71;
+}
+.search {
+    margin: 20px;
+}
+.search input {
+    padding: 10px;
+    width: 60%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.search button {
+    padding: 10px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.popular-items {
+    padding: 20px;
+    background: white;
+}
+.items-grid {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+.item {
+    background: #ecf0f1;
+    padding: 15px;
+    border-radius: 5px;
+}
+.benefits {
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+}
+footer {
+    background: #222;
+    color: white;
+    padding: 10px;
+}

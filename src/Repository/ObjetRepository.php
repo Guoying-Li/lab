@@ -70,7 +70,7 @@ class ObjetRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
-    public function findByCategory(Categorie $categorie): array
+    public function findByCategorie(Categorie $categorie): array
     {
         return $this->createQueryBuilder('o')
             ->innerJoin('o.categories', 'cat') 

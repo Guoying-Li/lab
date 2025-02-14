@@ -34,8 +34,9 @@ class Objet
     #[ORM\Column(length: 600, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column]
-    private ?bool $is_active = null;
+    #[ORM\Column(type: "boolean", options: ["default" => 1])]
+    private bool $isActive = true;
+
 
     #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'objets')]
     private Collection $categories;
@@ -120,12 +121,12 @@ class Objet
 
     public function isIsActive(): ?bool
     {
-        return $this->is_active;
+        return $this->isActive;
     }
 
     public function setIsActive(bool $is_active): static
     {
-        $this->is_active = $is_active;
+        $this-> isActive = $is_active;
         return $this;
     }
 
