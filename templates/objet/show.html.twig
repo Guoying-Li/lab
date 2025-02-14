@@ -6,13 +6,14 @@
     <div class="container mt-5">
         <h1 class="text-center text-decoration-underline">{{ objet.titre }}</h1>
 
-        <div class="card mt-4 p-3">
-            {% if objet.image %}
-            <img src="{{ vich_uploader_asset(objet, 'imageFile') }}" alt="Image de {{ objet.titre }}" class="img-fluid mb-3">
-        {% else %}
-            <img src="{{ asset('images/default-image.jpg') }}" alt="Image par défaut" class="img-fluid mb-3">
-        {% endif %}
-        
+        <div class="card mt-4 p-3 shadow-sm">
+            
+            <div class="d-flex justify-content-center">
+                <img src="{{ vich_uploader_asset(objet, 'imageFile') }}" 
+                     alt="Image de {{ objet.titre }}" 
+                     class="img-fluid rounded mb-3" 
+                     style="max-width: 500px; height: 300px; object-fit: cover;">
+            </div>
 
             <h5><strong>Catégories :</strong></h5>
             <ul>
@@ -30,15 +31,30 @@
             <p>{{ objet.modalite.nom }}</p>
 
             <div class="mt-4 d-flex gap-3">
-                <a href="{{ path('app_objet_edit', {id: objet.id}) }}" class="btn btn-warning">Modifier</a>
+                <a href="#" class="btn btn-warning">Modifier</a>
 
                 <form action="{{ path('app_objet_delete', {id: objet.id}) }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cet objet ?');">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ objet.id) }}">
                     <button type="submit" class="btn btn-danger">Supprimer</button>
                 </form>
 
-                <a href="{{ path('app_objet_index') }}" class="btn btn-secondary">Retour à la liste</a>
+                <a href="{{ path('app_objet') }}" class="btn btn-secondary">Retour à la liste</a>
             </div>
+           <!--  "Emprunter cet objet" -->
+           <div class="mt-4">
+            <form action="{{ path('app_objet_emprunter', {id: objet.id}) }}" method="post">
+                <button type="submit" class="btn btn-success w-100"
+                        {% if not objet.disponible %}disabled{% endif %}>
+                    {% if objet.disponible %}
+                        Emprunter cet objet
+                    {% else %}
+                        Objet indisponible
+                    {% endif %}
+                </button>
+            </form>
         </div>
+        
     </div>
+</div>
 {% endblock %}
+

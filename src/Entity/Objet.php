@@ -5,9 +5,10 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ObjetRepository;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: ObjetRepository::class)]
 #[Vich\Uploadable]
@@ -49,6 +50,16 @@ class Objet
     #[ORM\ManyToOne(targetEntity: Modalite::class)]
     #[ORM\JoinColumn(nullable: true)] 
     private ?Modalite $modalite = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $disponible = true; // Par défaut, l'objet est disponible
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?UserInterface $emprunteur = null;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $dateEmprunt = null;
 
     public function __construct()
     {
@@ -192,6 +203,39 @@ class Objet
             }
         }
         return "dispo";
+    }
+
+    public function isDisponible(): bool
+    {
+        return $this->disponible;
+    }
+
+    public function setDisponible(bool $disponible): self
+    {
+        $this->disponible = $disponible;
+        return $this;
+    }
+
+    public function getEmprunteur(): ?UserInterface
+    {
+        return $this->emprunteur;
+    }
+
+    public function setEmprunteur(?UserInterface $emprunteur): self
+    {
+        $this->emprunteur = $emprunteur;
+        return $this;
+    }
+
+    public function getDateEmprunt(): ?\DateTimeInterface
+    {
+        return $this->dateEmprunt;
+    }
+
+    public function setDateEmprunt(?\DateTimeInterface $dateEmprunt): self
+    {
+        $this->dateEmprunt = $dateEmprunt;
+        return $this;
     }
 
     public function __toString(): string

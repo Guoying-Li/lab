@@ -58,7 +58,7 @@
                        
                             <div class="d-flex flex-wrap mt-2">
                                
-                                    
+                                <p class="card-text flex-grow-1">{{ objet.modalite }}</p>     
                                 
                             </div>
                    
@@ -66,7 +66,7 @@
 
                     <!-- Footer de la carte avec les boutons -->
                     <div class="card-footer d-flex">
-                        <a href="" class="btn btn-primary">Voir</a>
+                        <a href="{{path ('app_objet_show', {'id': objet.id }) }}" class="btn btn-primary">Voir</a>
                         <a href="" class="btn btn-warning ms-2">Modifier</a>
                         <a href="" class="btn btn-danger ms-2">Supprimer</a>
                     </div>

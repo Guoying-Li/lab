@@ -3,8 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Objet;
-use App\Entity\Categorie;
-use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use App\Form\CategorieFilterType;
 use App\Form\ObjetType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -92,5 +91,35 @@ class ObjetController extends AbstractController
     
         return $this->redirectToRoute('app_objet_index');
     }
+
+
+    #[Route('/objet/{id}/emprunter', name: 'app_objet_emprunter', methods: ['POST'])]
+    public function emprunter(Objet $objet, EntityManagerInterface $entityManager, Request $request): RedirectResponse
+    {
+        $user = $this->getUser();
     
+        // Vérifier si l'utilisateur est connecté
+        if (!$user) {
+            $this->addFlash('danger', 'Vous devez être connecté pour emprunter un objet.');
+            return $this->redirectToRoute('app_login'); // Redirige vers la page de connexion
+        }
+    
+        // Vérifier si l'objet est disponible
+        if (!$objet->isDisponible()) {
+            $this->addFlash('warning', 'Cet objet n\'est plus disponible.');
+            return $this->redirectToRoute('app_objet_show', ['id' => $objet->getId()]);
+        }
+    
+        // Mettre à jour les informations de l'emprunt
+        $objet->setEmprunteur($user);
+        $objet->setDateEmprunt(new \DateTime());
+        $objet->setDisponible(false);
+    
+        $entityManager->flush(); // Enregistrer les modifications
+    
+        $this->addFlash('success', 'Votre demande d\'emprunt a été enregistrée !');
+    
+        return $this->redirectToRoute('app_objet_index');
+    
+}
 }
