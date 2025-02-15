@@ -10,6 +10,140 @@ header {
     padding: 15px;
     color: white;
 }
+.portfolio-experiment {
+    background: #2d2d2d;
+  }
+  
+  .portfolio-experiment a {
+    color: white;
+    padding: 0.7em calc(0.7em * 1.2);
+    display: inline-block;
+    border: 3px solid transparent;
+    position: relative;
+    font-size: 1.5em;
+    cursor: pointer;
+    letter-spacing: 0.07em;
+  }
+  
+  .portfolio-experiment a .text {
+    font-family: proxima-nova, monospace;
+    transform: translate3d(0, 0.7em, 0);
+    display: block;
+    transition: transform 0.4s cubic-bezier(.2,0,0,1) 0.4s;
+  }
+  
+  .portfolio-experiment a:after {
+    position: absolute;
+    content: '';
+    bottom: -3px;
+    left: calc(0.7em * 1.2);
+    right: calc(0.7em * 1.2);
+    height: 3px;
+    background: #f26522;
+    transition: 
+      transform 0.8s cubic-bezier(1,0,.37,1) 0.2s,
+      right 0.2s cubic-bezier(.04,.48,0,1) 0.6s,
+      left 0.4s cubic-bezier(.04,.48,0,1) 0.6s;
+    transform-origin: left;
+  }
+  
+  .portfolio-experiment .line {
+    position: absolute;
+    background: #f26522;
+  }
+  
+  .portfolio-experiment .line.-right,
+  .portfolio-experiment .line.-left {
+    width: 3px;
+    bottom: -3px;
+    top: -3px;
+    transform: scale3d(1,0,1);
+  }
+  
+  .portfolio-experiment .line.-top,
+  .portfolio-experiment .line.-bottom {
+    height: 3px;
+    left: -3px;
+    right: -3px;
+    transform: scale3d(0,1,1);
+  }
+  
+  .portfolio-experiment .line.-right {
+    right: -3px;
+    transition: transform 0.1s cubic-bezier(1,0,.65,1.01) 0.23s;
+    transform-origin: top;
+  }
+  
+  .portfolio-experiment .line.-top {
+    top: -3px;
+    transition: transform 0.08s linear 0.43s;
+    transform-origin: left;
+  }
+  
+  .portfolio-experiment .line.-left {
+    left: -3px;
+    transition: transform 0.08s linear 0.51s;
+    transform-origin: bottom;
+  }
+  
+  .portfolio-experiment .line.-bottom {
+    bottom: -3px;
+    transition: transform 0.3s cubic-bezier(1,0,.65,1.01);
+    transform-origin: right;
+  }
+  
+  .portfolio-experiment a:hover .text,
+  .portfolio-experiment a:active .text {
+    transform: translate3d(0,0,0);
+    transition: transform 0.6s cubic-bezier(.2,0,0,1) 0.4s;
+  }
+  
+  .portfolio-experiment a:hover:after,
+  .portfolio-experiment a:active:after {
+    transform: scale3d(0,1,1);
+    right: -3px;
+    left: -3px;
+    transform-origin: right;
+    transition: 
+      transform 0.2s cubic-bezier(1,0,.65,1.01) 0.17s,
+      right 0.2s cubic-bezier(1,0,.65,1.01),
+      left 0s 0.3s;
+  }
+  
+  .portfolio-experiment a:hover .line,
+  .portfolio-experiment a:active .line {
+    transform: scale3d(1,1,1);
+  }
+  
+  .portfolio-experiment a:hover .line.-right,
+  .portfolio-experiment a:active .line.-right {
+    transition: transform 0.1s cubic-bezier(1,0,.65,1.01) 0.2s;
+    transform-origin: bottom;
+  }
+  
+  .portfolio-experiment a:hover .line.-top,
+  .portfolio-experiment a:active .line.-top {
+    transition: transform 0.08s linear 0.4s;
+    transform-origin: right;
+  }
+  
+  .portfolio-experiment a:hover .line.-left,
+  .portfolio-experiment a:active .line.-left {
+    transition: transform 0.08s linear 0.48s;
+    transform-origin: top;
+  }
+  
+  .portfolio-experiment a:hover .line.-bottom,
+  .portfolio-experiment a:active .line.-bottom {
+    transition: transform 0.5s cubic-bezier(0,.53,.29,1) 0.56s;
+    transform-origin: left;
+  }
+  
+
+
+
+
+
 nav ul {
     list-style: none;
     padding: 0;
@@ -23,38 +157,28 @@ nav ul li a {
     text-decoration: none;
 }
 .hero {
-    background: #3498db;
+    background: #c0daeb;
     color: white;
     padding: 50px 20px;
 }
-.btn {
+.btn-home {
     display: inline-block;
     margin: 10px;
     padding: 10px 20px;
-    background: #4d2c3f;
-    color: white;
+    background: #e1e9e3;
+    color: #005686;
     text-decoration: none;
     border-radius: 5px;
 }
-.btn-secondary {
-    background: #2ecc71;
+.btn-home-secondary {
+    background-color: #fff; 
+    border-color: #005686; 
+    color: #005686;
 }
-.search {
-    margin: 20px;
-}
-.search input {
-    padding: 10px;
-    width: 60%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-.search button {
-    padding: 10px;
-    background: #e74c3c;
+
+.btn-primary:hover, .btn-secondary:hover {
+    background: #005686;
     color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
 }
 .popular-items {
     padding: 20px;
