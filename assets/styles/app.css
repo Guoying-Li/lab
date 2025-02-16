@@ -141,9 +141,6 @@ header {
   
 
 
-
-
-
 nav ul {
     list-style: none;
     padding: 0;
@@ -151,6 +148,7 @@ nav ul {
 nav ul li {
     display: inline;
     margin: 0 15px;
+    
 }
 nav ul li a {
     color: white;

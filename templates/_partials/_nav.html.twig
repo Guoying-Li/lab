@@ -1,93 +1,72 @@
-<nav id="main-menu" class="navbar navbar-expand-lg ">
-	<div class="container-fluid">
-		<section class="portfolio-experiment">
-			<a>
-			  <span class="text">Emprunthèque</span>
-			  <span class="line -right"></span>
-			  <span class="line -top"></span>
-			  <span class="line -left"></span>
-			  <span class="line -bottom"></span>
-			</a>
-		  </section>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<i class="fas fa-bars fa-2x" style="color:blue"></i>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path('app_home') }}">
-						ACCUEIL
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path('app_objet') }}">
-						LES OBJETS
-					</a>
-				</li>
-				
-					<li class="nav-item">
-						<a class="nav-link" href="{{ path('app_objet_create') }}">
-							PUBLIER UN OBJET
-						</a>
-					</li>
+<nav id="main-menu" class="navbar navbar-expand-lg navbar-light bg-light" role="navigation">
+    <div class="container">
+        <!-- Logo -->
+        <section class="portfolio-experiment">
+            <a class="navbar-brand" href="{{ path('app_home') }}">
+                <span class="text">Emprunthèque</span>
+                <span class="line -right"></span>
+                <span class="line -top"></span>
+                <span class="line -left"></span>
+                <span class="line -bottom"></span>
+            </a>
+        </section>
 
-			
-				<li>
-					<a class="nav-link" href="">
-						CONTACT
-					</a>
-				</li>
-				
-					<li>
-						<a class="nav-link" href="#">
-							ADMIN
-						</a>
-					</li>
-			
-			</ul>
-			<ul class="d-flex navbar-nav mb-2 mb-lg-0">
+        <!-- Bouton mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars fa-2x text-primary"></i>
+        </button>
 
-				<li class="nav-item dropdown">
-					
-						<a class="nav-link dropdown-toggle btn btn-outline-info" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <!-- Menu -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_home') }}" aria-current="page">ACCUEIL</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_objet') }}">LES OBJETS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_objet_create') }}">PUBLIER UN OBJET</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">CONTACT</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">ADMIN</a>
+                </li>
+            </ul>
 
-							<i class="far fa-address-card"></i>ESPACE MEMBRE
-							
+            <!-- Espace Membre -->
+            <ul class="navbar-nav d-flex align-items-center">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle btn btn-outline-info" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="far fa-address-card"></i> ESPACE MEMBRE
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">MON PROFIL</a></li>
+                        <li><a class="dropdown-item" href="#">MODIFIER MON PROFIL</a></li>
+                        <li><a class="dropdown-item" href="#">MODIFIER MON MOT DE PASSE</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="{{ path('app_logout') }}">DÉCONNEXION</a></li>
+                    </ul>
+                </li>
 
-						</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li>
-								<a class="dropdown-item" href="#">MON PROFIL</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="#">MODIFIER MON PROFIL</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="#">MODIFIER MON MOT DE PASSE</a>
-							</li>
-							<li><hr class="dropdown-divider"></li>
-							<li>
-								<a class="dropdown-item" href="{{ path('app_logout') }}">DECONNEXION</a>
-							</li>
-						</ul>
-					
-						<li>
-							<a class="nav-link logout-link" href="{{ path('app_login') }}">
-								<i class="fas fa-user"></i>
-								Se Connecter
-							</a>
-						</li>
-						<li>
-							<a class="nav-link logout-link" href="{{ path('app_register') }}">
-								<i class="fas fa-registered"></i>
-								Créer un compte
-							</a>
-						</li>
-					
-				</li>
-
-			</ul>
-
-		</div>
-	</div>
+                <li class="nav-item ms-2">
+                    <a class="nav-link btn btn-outline-primary" href="{{ path('app_login') }}">
+                        <i class="fas fa-user"></i> Se Connecter
+                    </a>
+                </li>
+                <li class="nav-item ms-2">
+                    <a class="nav-link btn btn-outline-success" href="{{ path('app_register') }}">
+                        <i class="fas fa-registered"></i> Créer un compte
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
+
