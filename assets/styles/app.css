@@ -1,3 +1,4 @@
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -160,15 +161,15 @@ nav ul li a {
     padding: 50px 20px;
 }
 .btn-home {
-    display: inline-block;
-    margin: 10px;
-    padding: 10px 20px;
-    background: #e1e9e3;
-    color: #005686;
-    text-decoration: none;
-    border-radius: 5px;
+  background-color: #005686;
+  color: white;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  transition: 0.3s ease-in-out
 }
-.btn-home-secondary {
+.btn-home-secondary, .btn-search{
     background-color: #fff; 
     border-color: #005686; 
     color: #005686;
@@ -178,6 +179,30 @@ nav ul li a {
     background: #005686;
     color: white;
 }
+
+.btn-white{
+  padding: 14px 40px;
+  background-color: #C0daeb;
+  color:rgb(65, 105, 255);
+  font-size: 17px;
+  font-weight: 600;
+  -webkit-font-smoothing: antialiased;
+  border: 0;
+  border-radius: 30px;
+  transition: 0.4s ease-in-out;
+}
+.btn-red {
+  padding: 14px 40px;
+  background-color: #813e65;
+  color:rgb(233, 235, 245);
+  font-size: 17px;
+  font-weight: 600;
+  -webkit-font-smoothing: antialiased;
+  border: 0;
+  border-radius: 30px;
+  transition: 0.4s ease-in-out;
+}
+
 .popular-items {
     padding: 20px;
     background: white;

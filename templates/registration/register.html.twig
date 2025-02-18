@@ -3,52 +3,54 @@
 {% block title %}Créer un compte{% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="bgform">
-                {% for flashError in app.flashes('verify_email_error') %}
-                    <div class="alert alert-danger" role="alert">{{ flashError }}</div>
-                {% endfor %}
+<section class="container my-5 d-flex justify-content-center">
+    <div class="card shadow-lg p-4" style="max-width: 500px; width: 100%; border-radius: 10px;">
+        <div class="card-body">
+            <h1 class="h4 text-center mb-4 font-weight-bold">Créer un compte</h1>
 
-                <div class="form">
-                    {{ form_start(registrationForm, {'attr': {'class': 'needs-validation'}}) }}
-                    
-                    <div class="mb-3">
-                        {{ form_row(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Prénom', 'required': 'required'}}) }}
-                    </div>
-                    
-                    <div class="mb-3">
-                        {{ form_row(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom', 'required': 'required'}}) }}
-                    </div>
-                    
-                    <div class="mb-3">
-                        {{ form_row(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email', 'required': 'required'}}) }}
-                    </div>
+            {% for flashError in app.flashes('verify_email_error') %}
+                <div class="alert alert-danger text-center" role="alert">{{ flashError }}</div>
+            {% endfor %}
 
-                    <div class="mb-3">
-                        {{ form_row(registrationForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'Mot de passe', 'required': 'required'}}) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form_row(registrationForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Confirmer le mot de passe', 'required': 'required'}}) }}
-                    </div>
-                    
-                    <div class="form-check mb-3">
-                        {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
-                        <label class="form-check-label">
-                            En cochant cette case, vous acceptez nos <a target="_blank" href="/CGU.pdf">conditions générales d'utilisation</a>
-                        </label>
-                    </div>
-                    
-                    <button class="btn btn-lg btn-primary" type="submit">M'inscrire</button>
-                    <a href="{{ path('app_login') }}">Me connecter</a>
+            {{ form_start(registrationForm, {'attr': {'class': 'needs-validation'}}) }}
 
-                    {{ form_end(registrationForm) }}
-                </div>
+            <div class="mb-3">
+                {{ form_row(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'}}) }}
             </div>
+
+            <div class="mb-3">
+                {{ form_row(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom'}}) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_row(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_row(registrationForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'Mot de passe'}}) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_row(registrationForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Confirmer le mot de passe'}}) }}
+            </div>
+
+            <div class="form-check mb-3">
+                {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                <label class="form-check-label">
+                    J'accepte les <a target="_blank" href="/CGU.pdf">conditions générales d'utilisation</a>
+                </label>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button class="btn btn-home btn-lg" type="submit">M'inscrire</button>
+                <a href="{{ path('app_login') }}" class="btn btn-home-secondary">J'ai déjà un compte</a>
+            </div>
+
+            {{ form_end(registrationForm) }}
         </div>
     </div>
-</div>
+</section>
 {% endblock %}
+
 
 

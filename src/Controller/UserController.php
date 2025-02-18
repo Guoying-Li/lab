@@ -47,23 +47,7 @@ class UserController extends AbstractController
         else $this->addFlash("error", "pas de user correspondant...");
         return $this->redirectToRoute("pret");
     }
-/**
- * @Route("/user/contact", name="user_contact", methods="GET")
- */
-    public function rajout(User $user=null, Request $request, EntityManagerInterface $manager){
-        if(!$user){
-            $user = new User();
-        }
-        $form = $this->createForm(UserType::class,$user);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-        $manager->flush();
-        return $this->redirectToRoute('user_index');
-    }
-    return $this->render('user/contact.html.twig',[
-        'formAdd'=> $form->createView()
-    ]);
-    }
+
 
 /**
  * @Route("/user/profil/modifier", name="user_profil_modifier")
