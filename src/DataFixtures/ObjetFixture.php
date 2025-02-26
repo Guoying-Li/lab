@@ -19,16 +19,6 @@ class ObjetFixture extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        for ($i = 0; $i < 10; $i++) {
-            $objet = new Objet();
-            $objet->setTitre($this->faker->word());
-            $objet->setDescription($this->faker->text()); 
-            $objet->setIsActive($this->faker->boolean());
-          
-
-            $manager->persist($objet);
-        }
-
-        $manager->flush();
+ 
     }
 }

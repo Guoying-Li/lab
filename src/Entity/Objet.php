@@ -22,8 +22,8 @@ class Objet
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
-    #[ORM\Column(type: 'datetime_immutable')]
-    private ?\DateTimeImmutable $updatedAt = null;
+    #[ORM\Column(type:"datetime_immutable", nullable:true)]
+    private $updatedAt;
 
     #[Vich\UploadableField(mapping: 'objets', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
