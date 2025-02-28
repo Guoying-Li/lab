@@ -13,11 +13,10 @@
             {% endif %}
 
             {% if app.user %}
-                <div class="alert alert-info text-center">
-                    Vous êtes connecté(e) comme <strong>{{ app.user.userIdentifier }}</strong>, 
-                    <a href="{{ path('app_logout') }}" class="alert-link">Me déconnecter</a>
-                </div>
-            {% else %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
+            </div>
+            {% endif %}
                 <form method="post">
                     <div class="mb-3">
                         <label for="inputEmail" class="form-label">Email</label>
@@ -38,7 +37,7 @@
                         <a href="{{ path('app_register') }}" class="btn btn-home-secondary">M'inscrire</a>
                     </div>
                 </form>
-            {% endif %}
+            
         </div>
     </div>
 </section>

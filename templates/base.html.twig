@@ -26,7 +26,24 @@
     <body>
      
     <main class="container my-5">
-        {% block body %}{% endblock %}
+        {% block body %}
+		<div class="row pt-2 pb-2">
+			<div class="col-md-4">
+				{% for message in app.flashes('success') %}
+
+					<div class="p-3 my-2 rounded-2 success">{{ message }}</div>
+
+				{% endfor %}
+				{% for message in app.flashes('error') %}
+
+					<div class="p-3 my-2 rounded-2 error">{{ message }}</div>
+
+				{% endfor %}
+			</div>
+		</div>
+
+        
+        {% endblock %}
     </main>
     
         

@@ -119,7 +119,7 @@ class ObjetController extends AbstractController
     
         $this->addFlash('success', 'Votre demande d\'emprunt a été enregistrée !');
     
-        return $this->redirectToRoute('app_objet_index');
+        return $this->redirectToRoute('app_objet');
     
 }
 }
