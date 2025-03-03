@@ -31,7 +31,7 @@
             <p>{{ objet.modalite.nom }}</p>
 
             <div class="mt-4 d-flex gap-3">
-                <a href="#" class="btn btn-warning">Modifier</a>
+                <a href="{{ path('app_objet_edit', {id: objet.id})}}" class="btn btn-warning">Modifier</a>
 
                 <form action="{{ path('app_objet_delete', {id: objet.id}) }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cet objet ?');">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ objet.id) }}">

@@ -78,7 +78,28 @@ class ObjetController extends AbstractController
         ]);
     }
     
-
+    /**
+     * Edit an objet
+     */
+    #[Route('/objet/edit/{id}', name: 'app_objet_edit')]
+    public function edit(Objet $objet, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(ObjetType::class, $objet);
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+    
+            $this->addFlash('success', "L'objet a été modifié avec succès !");
+    
+            return $this->redirectToRoute('app_objet_show', ['id' => $objet->getId()]);
+        }
+    
+        return $this->render('objet/create.html.twig', [
+            'form' => $form->createView(),
+            'objet' => $objet,
+        ]);
+    }
     
     #[Route('/objet/delete/{id}', name: 'app_objet_delete', methods: ['POST'])]
     public function delete(Request $request, Objet $objet, EntityManagerInterface $entityManager): Response

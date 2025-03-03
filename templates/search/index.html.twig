@@ -28,7 +28,7 @@
                         <div class="row">
                             {% for objet in objets %}
                                 <div class="col-md-3 mb-5 mt-3">
-                                    <a href="{{ path('app_objet_show' , {'slug': objet.slug}) }}" class="card mb-6 shadow-sm">
+                                    <a href="{{ path('app_objet_show' , {'slug': objet.titre}) }}" class="card mb-6 shadow-sm">
                                         <div class="card mb-6 shadow-sm">
                                             <img src="{{ vich_uploader_asset(objet, 'imageFile') }}" class="card-img-top" style="width: 100%; height: 200px;" alt="image">
                                             <div class="d-flex mt-1">
