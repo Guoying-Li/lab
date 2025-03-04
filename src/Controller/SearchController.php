@@ -32,6 +32,11 @@ class SearchController extends AbstractController
                     'placeholder' => 'Entrez un mot-clé'
                 ]
             ])
+            ->add('recherche', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-search'
+                ]
+            ])
             ->getForm();
 
         return $this->render('search/searchBar.html.twig', [
@@ -58,27 +63,9 @@ class SearchController extends AbstractController
                     'placeholder' => 'Entrez un mot-clé'
                 ]
             ])
-            ->add('recherche', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-outline-secondary'
-                ]
-            ])
+           
             ->getForm();
         
-        $form = $this->createFormBuilder()
-            ->setAction($this->generateUrl('handleSearch'))
-            ->add('query', TextType::class, [
-                'label' => false,
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Entrez un mot-clé'
-                ]
-            ])
-            ->add('recherche', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-outline-secondary'
-                ]
-                ])->getForm();
 
         $form->handleRequest($request);
 

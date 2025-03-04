@@ -92,7 +92,7 @@ class ObjetController extends AbstractController
     
             $this->addFlash('success', "L'objet a été modifié avec succès !");
     
-            return $this->redirectToRoute('app_objet_show', ['id' => $objet->getId()]);
+            return $this->redirectToRoute('app_objet');
         }
     
         return $this->render('objet/create.html.twig', [

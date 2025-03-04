@@ -8,12 +8,12 @@
 {% block body %}
     {% set isCreate = app.request.get('_route') == 'app_objet_create' %}
     
-    <h1 class="text-center mt-5 text-decoration-underline">
+    <h2 class="text-center mt-5 text-decoration-underline">
         {{ isCreate ? 'AJOUTER UN OBJET' : 'MODIFIER MON OBJET' }}
-    </h1>
+    </h2>
 
     <section class="container my-5 d-flex justify-content-center">
-        <div class="card shadow-lg p-4" style="max-width: 600px; width: 100%; border-radius: 10px;">
+        <div class="card shadow-lg p-4" style="max-width: 900px; width: 100%; border-radius: 10px;">
             <div class="card-body">
                 {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
 
@@ -57,5 +57,3 @@
         </div>
     </section>
 {% endblock %}
-
-
