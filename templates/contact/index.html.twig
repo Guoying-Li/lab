@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+    <div class="contact-container">
+        <div class="contact-image-container">
+            <img src="{{ asset('images/learn2.jpg') }}" alt="Bureau">
+            <div class="info-box">
+                <p><strong>NEW BUSINESS</strong><br>prospects@empruntheque.com</p>
+                <p><strong>NEW JOB</strong><br>recrutement@empruntheque.com</p>
+            </div>
+        </div>
+        <div class="contact-info">
+            <h3>NOUS CONTACTER</h3>
+            <p><strong>Emprunthèque</strong><br>
+                La Tour<br>
+                11 Rue Retabierre<br>
+                67000 Strasbourg</p>
+            <p><strong>Tel:</strong> +33 6 12 24 67 11</p>
+            <p><strong>Email:</strong> contact@empruntheque.com</p>
+            <p><a href="#">📍 Google Maps</a></p>
+        </div>
+    </div>
+{% endblock %}

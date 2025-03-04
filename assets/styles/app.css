@@ -232,6 +232,26 @@ nav ul li a {
   margin-top: auto; /* Pousse la liste vers le bas */
   text-align: center; /* Centre les éléments */
 }
+.contact-container {
+  display: flex;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+.contact-image-container {
+  position: relative;
+  width: 60%;
+}
+.contact-image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 footer {
     background: #222;
     color: white;
