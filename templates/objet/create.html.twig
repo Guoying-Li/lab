@@ -8,9 +8,9 @@
 {% block body %}
     {% set isCreate = app.request.get('_route') == 'app_objet_create' %}
     
-    <h2 class="text-center mt-5 text-decoration-underline">
+    <h3 class="text-center mt-5 text-decoration-underline">
         {{ isCreate ? 'AJOUTER UN OBJET' : 'MODIFIER MON OBJET' }}
-    </h2>
+    </h3>
 
     <section class="container my-5 d-flex justify-content-center">
         <div class="card shadow-lg p-4" style="max-width: 900px; width: 100%; border-radius: 10px;">
@@ -46,10 +46,10 @@
                 </div>
 
                 <div class="d-grid gap-2 mt-4">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-home">
                         {{ isCreate ? 'Ajouter' : 'Modifier' }}
                     </button>
-                    <a href="{{ path('app_objet') }}" class="btn btn-secondary">Annuler</a>
+                    <a href="{{ path('app_objet') }}" class="btn btn-red">Annuler</a>
                 </div>
 
                 {{ form_end(form) }}

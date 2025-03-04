@@ -11,15 +11,17 @@
                 <p><strong>NEW JOB</strong><br>recrutement@empruntheque.com</p>
             </div>
         </div>
-        <div class="contact-info">
-            <h3>NOUS CONTACTER</h3>
-            <p><strong>Emprunthèque</strong><br>
-                La Tour<br>
-                11 Rue Retabierre<br>
-                67000 Strasbourg</p>
-            <p><strong>Tel:</strong> +33 6 12 24 67 11</p>
-            <p><strong>Email:</strong> contact@empruntheque.com</p>
-            <p><a href="#">📍 Google Maps</a></p>
+     
+        <div class=" contact-form-container">
+        <h4>NOUS CONTACTER</h4>
+
+
+        {{ form_start(form) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.message) }}
+          
+        {{ form_end(form) }}
         </div>
     </div>
 {% endblock %}
