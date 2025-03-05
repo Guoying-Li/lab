@@ -15,24 +15,22 @@ class Pret
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date_de_retour = null;
+    private ?\DateTimeInterface $dateDeRetour = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date_de_pret = null;
+    private ?\DateTimeInterface $dateDePret = null;
 
-    #[ORM\ManyToOne(inversedBy: 'prets')]
-    private ?Modalite $PretModalite = null;
+    #[ORM\ManyToOne(targetEntity: Modalite::class, inversedBy: 'prets')]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
+    private ?Modalite $pretModalite = null;
 
-       /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="pret")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'prets')]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
+    private ?User $user = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Objet::class, inversedBy="pret")
-     */
-    private $objet;
+    #[ORM\ManyToOne(targetEntity: Objet::class, inversedBy: 'prets')]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
+    private ?Objet $objet = null;
 
     public function getId(): ?int
     {
@@ -41,64 +39,66 @@ class Pret
 
     public function getDateDeRetour(): ?\DateTimeInterface
     {
-        return $this->date_de_retour;
+        return $this->dateDeRetour;
     }
 
-    public function setDateDeRetour(\DateTimeInterface $date_de_retour): static
+    public function setDateDeRetour(\DateTimeInterface $dateDeRetour): static
     {
-        $this->date_de_retour = $date_de_retour;
-
+        $this->dateDeRetour = $dateDeRetour;
         return $this;
     }
 
     public function getDateDePret(): ?\DateTimeInterface
     {
-        return $this->date_de_pret;
+        return $this->dateDePret;
     }
 
-    public function setDateDePret(\DateTimeInterface $date_de_pret): static
+    public function setDateDePret(\DateTimeInterface $dateDePret): static
     {
-        $this->date_de_pret = $date_de_pret;
-
+        $this->dateDePret = $dateDePret;
         return $this;
     }
 
     public function getPretModalite(): ?Modalite
     {
-        return $this->PretModalite;
+        return $this->pretModalite;
     }
 
-    public function setPretModalite(?Modalite $PretModalite): static
+    public function setPretModalite(?Modalite $pretModalite): static
     {
-        $this->PretModalite = $PretModalite;
-
+        $this->pretModalite = $pretModalite;
         return $this;
     }
+
     public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(?User $user): static
     {
         $this->user = $user;
-
         return $this;
     }
+
     public function getObjet(): ?Objet
     {
         return $this->objet;
     }
 
-    public function setObjet(?Objet $objet): self
+    public function setObjet(?Objet $objet): static
     {
         $this->objet = $objet;
-
         return $this;
     }
-    public function __toString()
-    {
-        return $this->date_de_pret.$this->date_de_retour;
-    }
 
+    public function __toString(): string
+    {
+        return sprintf(
+            "Prêt du %s au %s",
+            $this->dateDePret?->format('d/m/Y') ?? 'N/A',
+            $this->dateDeRetour?->format('d/m/Y') ?? 'N/A'
+        );
+    }
 }
+

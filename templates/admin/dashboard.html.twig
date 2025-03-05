@@ -1,17 +1,17 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
     
-    {% block page_title %}{{ 'dashboard.page_title'|trans }}{% endblock %}
-    
-    {% block page_actions %}
-        <div class="btn-group">
-            <a href="{{ path('app_admin') }}" class="btn btn-secondary">
-                <i class="fa fa-reply"></i> {{ 'dashboard.back_to_admin'|trans }}
-            </a>
-        </div>
-    {% endblock %}
+
 
 {% block content %}
+<h2 class="mt-5 text-center">Bienvenue  {{ app.user.prenom }} !</h2><br>
 
+<div class="container mt-5">
+    <div>
+        <h3> 📉 Statistiques du site</h3><br>
+        <p>Nombre total d'utilisateurs : </p>
+        <p>Nombre total de cours disponible : </p>
+    </div>
+</div>
   
 
 {% endblock %}

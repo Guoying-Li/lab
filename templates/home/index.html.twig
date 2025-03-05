@@ -3,65 +3,69 @@
 {% block title %}EMPRUNTHEQUE{% endblock %}
 
 {% block body %}
-<section class="hero" style="background: url('{{ asset('images/water.webp') }}') no-repeat center center; background-size: cover;">
+<!-- Section Hero -->
+<section class="hero" 
+    style="background: radial-gradient(circle, rgb(76, 49, 138) 1%, rgb(90, 148, 211) 100%);
+           margin-bottom: 0;">
     <h1>Trouvez, empruntez, partagez !</h1>
     <p>Accédez facilement aux objets dont vous avez besoin, sans achat.</p>
-    <a href=" {{ path('app_objet') }}" class="btn btn-home">Découvrir les objets</a>
+    <a href="{{ path('app_objet') }}" class="btn btn-home">Découvrir les objets</a>
     <a href="{{ path('app_register')}}" class="btn btn-home-secondary">Créer un compte</a>
 </section>
 
+<!-- Section Objets Populaires + Avantages -->
+<div class="container-fluid px-0">
+    <div class="row justify-content-center mx-0">
+        <div class="col-lg-12 px-0">
+            <div class="card shadow-lg border-0" style="margin-top: 0;">
+                <div class="row g-0 h-100">
+                    
+                    <!-- Carrousel à gauche -->
+                    <div class="col-lg-5 d-flex align-items-center">
+                        <div id="carouselExampleAutoplaying" class="carousel slide w-100" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="{{ asset('images/g-shock.jpg') }}" class="d-block w-100 img-fluid rounded-start" alt="Appareil photo">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{{ asset('images/eyeglasses.jpg') }}" class="d-block w-100 img-fluid rounded-start" alt="Lunettes">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{{ asset('images/usb.jpg') }}" class="d-block w-100 img-fluid rounded-start" alt="Clé USB">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Précédent</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Suivant</span>
+                            </button>
+                        </div>
+                    </div>
 
+                    <!-- Avantages à droite -->
+                    <div class="col-lg-7 d-flex align-items-center">
+                        <div class="avantage-container">
+                            <div class="avantage-image-container">
+                                <img src="{{ asset('images/learn3.jpg') }}" alt="fille">
+                           
+                                    <div class="card-body text-center">
+                                    <h3 class="card-title">Pourquoi utiliser Emprunthèque ?</h3>
+                                    <ul class="list-unstyled mt-3">
+                                <li>🌱 <strong>Moins de gaspillage</strong></li>
+                                <li>💰 <strong>Économies importantes</strong></li>
+                                <li>🤝 <strong>Renforce la communauté</strong></li>
+                            </ul>
+                        </div>
+                    </div>
 
-<div class="container my-5">
-  <div class="row">
-      <!-- Objets populaires -->
-      <section id="explore" class="col-md-6">
-        
-        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="{{ asset('images/g-shock.jpg') }}" class="d-block w-75 mx-auto img-fluid" alt="Appareil photo">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h4>Objets populaires</h4>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="{{ asset('images/eyeglasses.jpg') }}" class="d-block w-75 mx-auto img-fluid" alt="Lunettes">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h4>Objets populaires</h4>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="{{ asset('images/usb.jpg') }}" class="d-block w-75 mx-auto img-fluid" alt="Clé USB">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h4>Objets populaires</h4>
-                    </div>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Précédent</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Suivant</span>
-            </button>
         </div>
-    </section>
-    
-
-      <!-- Témoignages / Avantages -->
-      <section class="col-md-6 benefits" style="background: url('{{ asset('images/industry.webp') }}') no-repeat center center; background-size: cover;">
-        <h3>Pourquoi utiliser Emprunthèque ?</h3>
-        <ul class="list-unstyled">
-            <li>🌱 Moins de gaspillage</li>
-            <li>💰 Économies importantes</li>
-            <li>🤝 Renforce la communauté</li>
-        </ul>
-    </section>
-    
-  </div>
+    </div>
 </div>
 
-
 {% endblock %}
+

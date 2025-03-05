@@ -17,12 +17,12 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserController extends AbstractController
 {
 
-/**
- * @Route("/user", name="user")
- */
+    #[Route(path: '/user', name: 'app_user')]
     public function index()
     {
-        return $this->render('user/index.html.twig');
+        return $this->render('user/index.html.twig', [
+            'user' => $this->getUser(),
+        ]);
     }
 
 /**

@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ObjetRepository::class)]
 #[Vich\Uploadable]
@@ -20,10 +20,12 @@ class Objet
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $titre = null;
 
-    #[ORM\Column(type:"datetime_immutable", nullable:true)]
-    private $updatedAt;
+    #[ORM\Column(type: "datetime_immutable", nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[Vich\UploadableField(mapping: 'objets', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
@@ -32,32 +34,32 @@ class Objet
     private ?string $imageName = null;
 
     #[ORM\Column(length: 600, nullable: true)]
+    #[Assert\Length(max: 600)]
     private ?string $description = null;
 
-    #[ORM\Column(type: "boolean", options: ["default" => 1])]
+    #[ORM\Column(type: "boolean", options: ["default" => true])]
     private bool $isActive = true;
-
 
     #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'objets')]
     private Collection $categories;
 
-    #[ORM\ManyToOne(inversedBy: 'objets')]
-    #[ORM\JoinColumn(nullable: true, onDelete: "CASCADE")]
-    private ?User $createdBy = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "objets")]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
-    #[ORM\OneToMany(targetEntity: Pret::class, mappedBy: 'objet', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: Pret::class, mappedBy: "objet", cascade: ["persist", "remove"])]
     private Collection $pret;
 
     #[ORM\ManyToOne(targetEntity: Modalite::class)]
-    #[ORM\JoinColumn(nullable: true)] 
+    #[ORM\JoinColumn(nullable: true)]
     private ?Modalite $modalite = null;
 
-    #[ORM\Column(type: 'boolean')]
-    private bool $disponible = true; // Par défaut, l'objet est disponible
+    #[ORM\Column(type: 'boolean', options: ["default" => true])]
+    private bool $disponible = true;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: true)]
-    private ?UserInterface $emprunteur = null;
+    private ?User $emprunteur = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $dateEmprunt = null;
@@ -78,7 +80,7 @@ class Objet
         return $this->titre;
     }
 
-    public function setTitre(string $titre): static
+    public function setTitre(string $titre): self
     {
         $this->titre = $titre;
         return $this;
@@ -88,7 +90,7 @@ class Objet
     {
         $this->imageFile = $imageFile;
 
-        if (null !== $imageFile) {
+        if ($imageFile !== null) {
             $this->updatedAt = new \DateTimeImmutable();
         }
     }
@@ -113,20 +115,20 @@ class Objet
         return $this->description;
     }
 
-    public function setDescription(?string $description): static
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
         return $this;
     }
 
-    public function isIsActive(): ?bool
+    public function getIsActive(): bool
     {
         return $this->isActive;
     }
 
-    public function setIsActive(bool $is_active): static
+    public function setIsActive(bool $isActive): self
     {
-        $this-> isActive = $is_active;
+        $this->isActive = $isActive;
         return $this;
     }
 
@@ -135,7 +137,7 @@ class Objet
         return $this->categories;
     }
 
-    public function addCategorie(Categorie $categorie): static
+    public function addCategorie(Categorie $categorie): self
     {
         if (!$this->categories->contains($categorie)) {
             $this->categories->add($categorie);
@@ -143,20 +145,20 @@ class Objet
         return $this;
     }
 
-    public function removeCategorie(Categorie $categorie): static
+    public function removeCategorie(Categorie $categorie): self
     {
         $this->categories->removeElement($categorie);
         return $this;
     }
 
-    public function getCreatedBy(): ?User
+    public function getUser(): ?User
     {
-        return $this->createdBy;
+        return $this->user;
     }
 
-    public function setCreatedBy(?User $createdBy): static
+    public function setUser(?User $user): self
     {
-        $this->createdBy = $createdBy;
+        $this->user = $user;
         return $this;
     }
 
@@ -195,15 +197,15 @@ class Objet
         return $this;
     }
 
-    public function getDispo(): string
+    public function getDispo(): bool
     {
         $now = new \DateTime();
         foreach ($this->pret as $pret) {
-            if ($now > $pret->getDateDePret() && $now < $pret->getDateDeRetour()) {
-                return "non dispo";
+            if ($now >= $pret->getDateDePret() && $now <= $pret->getDateDeRetour()) {
+                return false;
             }
         }
-        return "dispo";
+        return true;
     }
 
     public function isDisponible(): bool
@@ -217,12 +219,12 @@ class Objet
         return $this;
     }
 
-    public function getEmprunteur(): ?UserInterface
+    public function getEmprunteur(): ?User
     {
         return $this->emprunteur;
     }
 
-    public function setEmprunteur(?UserInterface $emprunteur): self
+    public function setEmprunteur(?User $emprunteur): self
     {
         $this->emprunteur = $emprunteur;
         return $this;

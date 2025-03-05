@@ -1,20 +1,79 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+
+{% block title %}Profil de
+	{{ app.user.prenom }}
+	{{ app.user.nom }}
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="bgform">
+	<div class="form">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+		<table class="table table-light table-striped">	
+		
+				<h5>Profil de
+					{{ app.user.prenom }}
+					{{ app.user.nom }}</h5>
+			<thead>
+				<tr>
+					<th>NOM</th>
+					<th>PRENOM</th>
+					<th>EMAIL</th>
+					<th>ROLE</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{{ app.user.nom }}</td>
+					<td>{{ app.user.prenom }}</td>
+					<td>{{ app.user.email }}</td>
+					
+					<td>
+					{% for unrole in app.user.roles %}
+					<li>{{unrole}}</li>
+					{% endfor %}
+					</td>
+				</tr>
+			</tbody>
+		</table>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/laragon/www/lab/src/Controller/UserController.php'|file_link(0) }}">src/Controller/UserController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/laragon/www/lab/templates/user/index.html.twig'|file_link(0) }}">templates/user/index.html.twig</a></code></li>
-    </ul>
+		<button type="button" class="btn btn-outline-info">
+			<a href="#" class="btn blue">
+				<i class="fas fa-edit"></i>Profil</a>
+		</button>
+		<button type="button" class="btn btn-outline-info">
+			<a href="#" class="btn blue">
+				<i class="fas fa-edit"></i>Mot de passe</a>
+		</button>
+
+
+		<h5>Objets proprosés par 
+			{{ app.user.prenom }}
+			{{ app.user.nom }}
+		</h5>
+
+		{% for objet in app.user.objet %}
+			<div class="col-xs3"><i class="fas fa-box-open"></i> &nbsp {{ objet.titre }} 
+			{% if objet.dispo == "dispo" %}
+			<button type="button" class="btn btn-outline-success"><i class="fas fa-toggle-on"></i> {{ objet.dispo }}</button></div>
+			{% else %}
+			<button type="button" class="btn btn-outline-danger"><i class="fas fa-toggle-off"> &nbsp objet emprunté</i></button>
+			{% endif %}
+		{% endfor %}
+	
+	<hr>
+		<h5> Emprunt de 
+			{{ app.user.prenom }}
+			{{ app.user.nom }}
+		</h5>
+
+		{% for pret in app.user.pret %}
+			<div class="col-xs3"><i class="fas fa-box"></i> &nbsp {{ pret.objet }} 
+			<button type="button" class="btn btn-outline-danger"><i class="fas fa-exchange-alt"></i>  Date de Retour est de:  {{ pret.dateDeRetour | date('d/m/Y') }}</button></div>
+			
+		{% endfor %}
+	</div>
+	</div>
 </div>
 {% endblock %}
