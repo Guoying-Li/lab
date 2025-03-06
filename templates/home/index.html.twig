@@ -14,14 +14,14 @@
 </section>
 
 <!-- Section Objets Populaires + Avantages -->
-<div class="container-fluid px-0">
+<div class="site-container px-0">
     <div class="row justify-content-center mx-0">
         <div class="col-lg-12 px-0">
             <div class="card shadow-lg border-0" style="margin-top: 0;">
                 <div class="row g-0 h-100">
                     
                     <!-- Carrousel à gauche -->
-                    <div class="col-lg-5 d-flex align-items-center">
+                    <div class="image-objet col-lg-5 d-flex align-items-center">
                         <div id="carouselExampleAutoplaying" class="carousel slide w-100" data-bs-ride="carousel">
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
@@ -47,22 +47,20 @@
 
                     <!-- Avantages à droite -->
                     <div class="col-lg-7 d-flex align-items-center">
-                        <div class="avantage-container">
-                            <div class="avantage-image-container">
-                                <img src="{{ asset('images/learn3.jpg') }}" alt="fille">
-                           
-                                    <div class="card-body text-center">
-                                    <h3 class="card-title">Pourquoi utiliser Emprunthèque ?</h3>
-                                    <ul class="list-unstyled mt-3">
-                                <li>🌱 <strong>Moins de gaspillage</strong></li>
-                                <li>💰 <strong>Économies importantes</strong></li>
-                                <li>🤝 <strong>Renforce la communauté</strong></li>
-                            </ul>
-                        </div>
+                        <div class="avantage-container container-fluid">
+                            <div class="avantage-image-container d-flex justify-content-center">
+                                <img src="{{ asset('images/learn3.jpg') }}" alt="fille">                 
                     </div>
-
                 </div>
             </div>
+            <div class="card-footer text-center">
+                <h3 class="card-p">Pourquoi utiliser Emprunthèque ?</h3>
+                <ul class="list-avantage mt-3">
+            <li>🌱 <strong>Moins de gaspillage</strong></li>
+            <li>💰 <strong>Économies importantes</strong></li>
+            <li>🤝 <strong>Renforce la communauté</strong></li>
+        </ul>
+    </div>
         </div>
     </div>
 </div>
