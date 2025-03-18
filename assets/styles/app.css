@@ -7,12 +7,11 @@ body {
     text-align: center;
 }
 header {
-    background: #005686;
     padding: 15px;
     color: white;
 }
 .portfolio-experiment {
-    background: #2d2d2d;
+    background: #005686;
   }
   
   .portfolio-experiment a {
@@ -206,25 +205,8 @@ nav ul li a {
   transition: 0.4s ease-in-out;
 }
 
-/* 让文字部分有斜切效果 */
-.text-section {
-  
-  position: relative;
-  clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
-}
-
-/* 让图片部分覆盖到文字部分的斜线 */
-.image-section {
-  position: relative;
-  overflow: hidden;
-
-}
-
-/* 让图片紧密贴合 */
-.image-section img {
-  width: 100%;
-  object-fit: cover;
-  clip-path: polygon(5% 0, 100% 0, 100% 100%, 5% 100%);
+.bg-carousel {
+ background-color: #7fb7d4;
 }
 
 
@@ -239,9 +221,12 @@ nav ul li a {
   text-align: center;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
-.list-unstyled {
+
+.list-avantage {
   margin-top: auto; /* Pousse la liste vers le bas */
   text-align: center; /* Centre les éléments */
+  text-decoration: none;
+  color: #005686;
 }
 .contact-container {
   display: flex;
@@ -349,9 +334,6 @@ p:not(:last-child) {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  max-width: 500px;
-  height: 300px;
   padding: 50px;
 }
 
