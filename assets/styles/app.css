@@ -206,8 +206,11 @@ nav ul li a {
 }
 
 .bg-carousel {
- background-color: #7fb7d4;
+  background: radial-gradient(circle, rgb(221, 139, 217) 10%, rgb(48, 129, 216) 90%);
+  padding: 50px 0; /* Ajoute de l'espace autour du contenu */
+  text-align: center; /* Centre le texte ou les éléments à l'intérieur */
 }
+
 
 
 
@@ -215,7 +218,7 @@ nav ul li a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: #005686; 
+  color: #fff; 
   padding: 50px;
   border-radius: 10px;
   text-align: center;
@@ -226,7 +229,7 @@ nav ul li a {
   margin-top: auto; /* Pousse la liste vers le bas */
   text-align: center; /* Centre les éléments */
   text-decoration: none;
-  color: #005686;
+  color: #fff;
 }
 .contact-container {
   display: flex;
@@ -346,9 +349,6 @@ p:not(:last-child) {
   justify-content: space-between;
   padding: 20px;
   border: 1px solid rgba(255, 255, 255, .25);
-  border-radius: 20px;
-  background-color: rgba(255, 255, 255, 0.45);
-  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
 }
 .list-avantage li {
   margin: 0 10px;
