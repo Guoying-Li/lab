@@ -8,6 +8,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+
 class UserFixtures extends Fixture 
 {
     private UserPasswordHasherInterface $passwordHasher;
@@ -27,7 +28,7 @@ class UserFixtures extends Fixture
                 'prenom' => 'User',
                 'password' => 'azerty',
             ],
-            //  ajouter d'autres utilisateurs ici...
+            
         ];
 
         foreach ($usersData as $userData) {
