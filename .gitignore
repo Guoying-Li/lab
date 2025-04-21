@@ -23,4 +23,6 @@
 ###> symfony/asset-mapper ###
 /public/assets/
 /assets/vendor/
+/public/uploads/*
+!/public/uploads/.gitkeep
 ###< symfony/asset-mapper ###
