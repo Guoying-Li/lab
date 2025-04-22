@@ -45,10 +45,14 @@ class ObjetController extends AbstractController
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $objet = new Objet();
+
         $form = $this->createForm(ObjetType::class, $objet);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($objet->getUser() === null) {
+                $objet->setUser($this->getUser());
+            }
             $em->persist($objet);
             $em->flush();
 
@@ -110,7 +114,7 @@ class ObjetController extends AbstractController
             $this->addFlash('success', "L'objet a été supprimé avec succès !");
         }
     
-        return $this->redirectToRoute('app_objet_index');
+        return $this->redirectToRoute('app_objet');
     }
 
 
