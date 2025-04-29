@@ -38,7 +38,7 @@ class Modalite
 
     public function setNom(string $nom): static
     {
-        $this->nom = $nom;
+        $this->nom = ucfirst(strtolower(trim($nom)));
 
         return $this;
     }

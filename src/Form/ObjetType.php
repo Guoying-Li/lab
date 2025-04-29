@@ -58,7 +58,7 @@ class ObjetType extends AbstractType
                 'label_attr' => ['class' => 'form-label fw-bold'],
                 'attr' => [
                     'class' => 'form-control',
-                    'rows' => 5, // Ajusté à 5 pour un meilleur affichage
+                    'rows' => 5,  
                 ],
             ]);
     }
