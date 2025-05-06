@@ -20,18 +20,25 @@ class ObjetIntegrationTest extends KernelTestCase
 
     public function testPersistObjetWithRelations(): void
     {
-        // Création des dépendances (catégorie, modalité, utilisateur)
+        // Création des entités liées
         $categorie = new Categorie();
-        $categorie->setNom('Catégorie Test');
+        $categorie->setNom('Catégorie Tes');
+        $this->entityManager->persist($categorie);
 
         $modalite = new Modalite();
         $modalite->setNom('Modalité Test');
+        $this->entityManager->persist($modalite);
 
         $user = new User();
         $user->setEmail('integration@test.com');
         $user->setPassword('fake-password');
         $user->setRoles(['ROLE_USER']);
+        $this->entityManager->persist($user);
 
+        // Flush des entités dépendantes pour s'assurer qu'elles sont bien insérées
+        $this->entityManager->flush();
+
+        // Création de l'objet principal
         $objet = new Objet();
         $objet->setTitre('Objet Intégré');
         $objet->setDescription('Un objet de test pour l’intégration.');
@@ -39,20 +46,16 @@ class ObjetIntegrationTest extends KernelTestCase
         $objet->setModalite($modalite);
         $objet->setUser($user);
 
-        // Persistance
-        $this->entityManager->persist($categorie);
-        $this->entityManager->persist($modalite);
-        $this->entityManager->persist($user);
         $this->entityManager->persist($objet);
         $this->entityManager->flush();
 
-        // Vérifications
+        // Vérification en base
         $repo = $this->entityManager->getRepository(Objet::class);
         $savedObjet = $repo->findOneBy(['titre' => 'Objet Intégré']);
 
         $this->assertNotNull($savedObjet);
         $this->assertEquals('Un objet de test pour l’intégration.', $savedObjet->getDescription());
-        $this->assertEquals('Catégorie Test', $savedObjet->getCategories()->getNom());
+        $this->assertEquals('Catégorie Test', $savedObjet->getCategories()->first()->getNom());
         $this->assertEquals('Modalité Test', $savedObjet->getModalite()->getNom());
         $this->assertEquals('integration@test.com', $savedObjet->getUser()->getEmail());
     }
@@ -60,7 +63,7 @@ class ObjetIntegrationTest extends KernelTestCase
     protected function tearDown(): void
     {
         parent::tearDown();
-        // Nettoyage de l'EntityManager
         $this->entityManager->clear();
     }
 }
+

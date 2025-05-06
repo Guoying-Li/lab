@@ -64,7 +64,7 @@ mysql -u user -p dbname < backup.sql
 Possibilité de revenir à une version précédente via Git :
 git checkout <tag-ou-commit> + redéploiement
 
-👥 Contacts techniques (projet collaboratif)
+👥 Contacts techniques 
 [Guoying LI] – Développeuse principale 
 
 
